@@ -11,20 +11,19 @@
 </head>
 <body>
 
-    <section class="row justify-content-center">
-        <div class="bg-light col-8 text-center m-4">
-            <h2>Keep notes</h2>
-        </div>
-        <div class="col-11 pb-5">
-            <div class="text-end">
-                    <a href="write-noots" class="btn  btn-success text-white">+</a>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="row justify-content-around">
-        {% block main-content %}{% endblock main-content %}
+    <section class="container p-5">
+        <form action="{% url "add-noots" %}" method="POST">
+            {% csrf_token %}
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" class="form-control" id="title" name="title">
+  </div>
+  <div class="mb-3">
+    <label for="text" class="form-label">Text</label>
+    <textarea type="text" class="form-control" id="text" name="text"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">save</button>
+</form>
     </section>
 
 </body>
