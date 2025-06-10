@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noots App - Organize Your Thoughts</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Light background */
+        }
+        .navbar {
+            background-color: #343a40; /* Dark navbar */
+        }
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        .feature-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .testimonial-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+        }
+        .cta-section {
+            background-color: #007bff; /* Bootstrap primary blue */
+            color: white;
+            padding: 80px 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 50px; /* Pill button */
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-outline-light {
+            border-radius: 50px; /* Pill button */
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0;
+        }
+        /* Custom styles for the message box */
+        #message-box {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f0fdf4;
+            color: #15803d;
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid #16a34a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1050; /* Higher z-index for Bootstrap modals/navbars */
+        }
+        #message-box.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Message Box -->
+    <div id="message-box" class="hidden"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url "home" %}">Noots App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#download">Download</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">{{intro_decs.intro}}</h1>
+            <p class="lead mb-5">{{intro_decs.slogan}}</p>
+            <a href="{% url "login" %}" class="btn btn-primary btn-lg me-3">Get Started Free in web</a>
+            <a href="#features" class="btn btn-outline-light btn-lg">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Powerful Features for Seamless Note-Taking</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-3">Intuitive Interface</h3>
+                            <p class="card-text">Clean and user-friendly design makes note-taking a breeze for everyone.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-3">Cross-Device Sync</h3>
+                            <p class="card-text">Access your notes anytime, anywhere, across all your devices seamlessly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-3">Rich Text Editing</h3>
+                            <p class="card-text">Format your notes with bold, italics, lists, and more to highlight key information.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-3">Tagging & Organization</h3>
+                            <p class="card-text">Effortlessly categorize and find your notes with powerful tagging and search.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-3">Secure & Private</h3>
+                            <p class="card-text">Your data is encrypted and secure, ensuring your thoughts remain private.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <h3 class="card-title fw-bold mb-3">Offline Access</h3>
+                            <p class="card-text">Work on your notes even without an internet connection in Mobile applications, sync later.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    {% comment %} <section id="testimonials" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">What Our Users Say</h2>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                    <div class="card p-4 testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text fst-italic mb-3">"Noots App has revolutionized how I manage my daily tasks and ideas. It's incredibly simple yet powerful!"</p>
+                            <footer class="blockquote-footer">Jane Doe, <cite title="Source Title">Freelancer</cite></footer>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card p-4 testimonial-card">
+                        <div class="card-body">
+                            <p class="card-text fst-italic mb-3">"The cross-device sync is a game-changer. I can start a note on my phone and finish it on my laptop seamlessly."</p>
+                            <footer class="blockquote-footer">John Smith, <cite title="Source Title">Student</cite></footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+
+    <!-- Call to Action Section -->
+    <section id="download" class="cta-section text-center">
+        <div class="container">
+            <h2 class="display-5 fw-bold mb-4">{{intro_decs.title_for_mobile_app}}</h2>
+            {% comment %} <p class="lead mb-5">Download Noots App today and start capturing your brilliance.</p> {% endcomment %}
+            <a href="#" class="btn btn-outline-light btn-lg">Download for iOS</a>
+            <a href="#" class="btn btn-outline-light btn-lg ms-3">Download for Android</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Noots App. All rights reserved.</p>
+            <div class="mt-2">
+                <a href="#" class="text-white text-decoration-none mx-2">Privacy Policy</a> |
+                <a href="#" class="text-white text-decoration-none mx-2">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle (Popper.js included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Function to display a message
+        function showMessage(message, type = 'success') {
+            const messageBox = document.getElementById('message-box');
+            messageBox.textContent = message;
+            // Bootstrap classes for alerts are alert-success, alert-danger etc.
+            messageBox.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show fixed-top mx-auto mt-3 w-75 text-center`;
+            messageBox.style.display = 'block'; // Ensure it's visible
+            messageBox.style.zIndex = '1050'; // Ensure it's above other content
+
+            // Add a close button for dismissible alert
+            messageBox.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+
+
+            setTimeout(() => {
+                const bsAlert = new bootstrap.Alert(messageBox);
+                bsAlert.close(); // Use Bootstrap's close method
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // Check for saved state on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedMessage = sessionStorage.getItem('message');
+            const savedMessageType = sessionStorage.getItem('messageType');
+            if (savedMessage) {
+                showMessage(savedMessage, savedMessageType);
+                sessionStorage.removeItem('message'); // Clear message after displaying
+                sessionStorage.removeItem('messageType');
+            }
+        });
+    </script>
+</body>
+</html>
