@@ -10,10 +10,24 @@ class IntroDescreption:
         self.title_for_mobile_app: str = title_for_mobile_app
         
         
-class noots:
-    def __init__(self, noots_title, text):
-        self.title = noots_title
-        self.text = text
+class noots(models.Model):
+    title = models.CharField(max_length=100)
+    text = models.TextField()
+    user_id = models.CharField()
+    date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title, self.text
+    
+class Users(models.Model):
+    
+    name = models.CharField()
+    email = models.CharField()
+    password = models.CharField()
+    
+    def __str__(self):
+        return self.name, self.email, self.password
+    
         
     
     

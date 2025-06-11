@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import IntroDescreption, noots
+from noots.models import noots
+
 
 # Create your views here.
 
 NOOTS_TITLE :str
 NOOTS_TEXT: str
-NOOTS_LIST = []
+#NOOTS_LIST = []
+NOOTS = noots()
 
 def home(request):
     introDec = IntroDescreption(
@@ -35,22 +38,44 @@ def noots_page(request):
     #template = loader.get_template('noots_page.html')
     # return HttpResponse(template.render())
     context = {
-        'list': NOOTS_LIST
+        'noots': noots.objects.all()
     }
-    return render(request, "noots_page.html",context)
+    
+    return render(request, "noots_page.html", context)
 
 def write_noots(request):
     template = loader.get_template('noots-write.html')
     return HttpResponse(template.render())
 
+
+
 def add_noots(request):
-    NOOTS_TITLE = request.GET.get('title')
-    NOOTS_TEXT = request.GET.get('text')
-    NOOTS_LIST.append(noots(NOOTS_TITLE, NOOTS_TEXT))
-    context = {
-        'list': NOOTS_LIST
-    }
+    # ..............OLD METHODS........................
+    # NOOTS_TITLE = request.GET.get('title')
+    # NOOTS_TEXT = request.GET.get('text')
+    # NOOTS_LIST.append(noots(NOOTS_TITLE, NOOTS_TEXT))
+    # context = {
+    #     'list': NOOTS_LIST
+    # }
     
     # template = loader.get_template('noots_page.html')
     # return render(request, "noots_page.html", context)
+    
+    
+    #..................UPDATED METHODS......................
+    
+    if request.method == 'GET':
+        NOOTS_TITLE = request.GET.get('title')
+        NOOTS_TEXT = request.GET.get('text')
+        
+        NOOTS.title = NOOTS_TITLE
+        NOOTS.text = NOOTS_TEXT
+        NOOTS.save()
+        
+        
+        # NOOTS.objects.create(
+        #     title = NOOTS_TITLE,
+        #     text = NOOTS_TEXT
+        # )
+    
     return redirect('noots-page')

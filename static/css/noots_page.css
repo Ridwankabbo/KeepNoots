@@ -1,0 +1,16 @@
+#noost-list{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+    gap: 50px;
+}
+
+#card{
+    width: 400px;
+}
+
+#btns{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+}
