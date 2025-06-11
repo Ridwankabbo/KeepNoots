@@ -12,8 +12,8 @@
 <body>
 
     <section class="container p-5">
-        <form action="{% url "add-noots" %}" method="POST">
-            {% csrf_token %}
+        <form action="{% url "add-noots" %}" method="get">
+            {% comment %} {%  csrf_token %} {% endcomment %}
   <div class="mb-3">
     <label for="title" class="form-label">Title</label>
     <input type="text" class="form-control" id="title" name="title">

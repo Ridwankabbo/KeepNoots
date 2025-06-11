@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import IntroDescreption, noots
@@ -32,20 +32,25 @@ def login(request):
 
 def noots_page(request):
     
-    template = loader.get_template('noots_page.html')
-    return HttpResponse(template.render())
+    #template = loader.get_template('noots_page.html')
+    # return HttpResponse(template.render())
+    context = {
+        'list': NOOTS_LIST
+    }
+    return render(request, "noots_page.html",context)
 
 def write_noots(request):
     template = loader.get_template('noots-write.html')
-    return HttpResponse(template.render()   )
+    return HttpResponse(template.render())
 
 def add_noots(request):
-    NOOTS_TITLE = request.POST.get('title')
-    NOOTS_TEXT = request.POST.get('text')
+    NOOTS_TITLE = request.GET.get('title')
+    NOOTS_TEXT = request.GET.get('text')
     NOOTS_LIST.append(noots(NOOTS_TITLE, NOOTS_TEXT))
     context = {
         'list': NOOTS_LIST
     }
     
     # template = loader.get_template('noots_page.html')
-    return render(request, "noots_page.html", context)
+    # return render(request, "noots_page.html", context)
+    return redirect('noots-page')
