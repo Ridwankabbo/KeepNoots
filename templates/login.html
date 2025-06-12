@@ -61,15 +61,17 @@
 
     <div class="login-container mx-auto">
         <h1 class="text-center mb-4 fw-bold">Login to Noots App</h1>
-        <form id="login-form">
-            <div class="mb-3">
+        <form action="{% url "login" %}" method="post">
+            {% csrf_token %}
+            {% comment %} <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="mb-4">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control rounded-pill" id="password" name="password" placeholder="Enter your password" required>
-            </div>
+            </div> {% endcomment %}
+            {{ form }}
             <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
         </form>
         <p class="text-center text-muted">Don't have an account? <a href="{% url "singup" %}" class="text-decoration-none">Sign up here</a></p>

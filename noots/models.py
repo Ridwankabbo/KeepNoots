@@ -17,7 +17,7 @@ class noots(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.title, self.text
+        return self.title
     
 class Users(models.Model):
     
@@ -26,7 +26,7 @@ class Users(models.Model):
     password = models.CharField()
     
     def __str__(self):
-        return self.name, self.email, self.password
+        return self.name
     
         
     
