@@ -4,7 +4,8 @@ from django.template import loader
 from .models import IntroDescreption, noots
 from noots.models import noots, Users
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login as auth_login, logout
+from django.urls import reverse
 
 
 # Create your views here.
@@ -13,6 +14,8 @@ NOOTS_TITLE :str
 NOOTS_TEXT: str
 #NOOTS_LIST = []
 NOOTS = noots()
+
+LOGED_USER_ID = 0
 
 def home(request):
     introDec = IntroDescreption(
@@ -72,21 +75,35 @@ def login(request):
     # template = loader.get_template('login.html')
     
     if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(request= request, data=request.POST)
         if form.is_valid():
-            #login(request, form.get_user())
+            
+            user = form.get_user()
+            
+            auth_login(request, user)
+           
+            # # login(request, form.get_user())
+            # user_name = form.cleaned_data.get('username')
+            # LOGED_USER_ID = noots().objects.get()
+           
             return redirect('noots-page')
     else:
         form = AuthenticationForm()    
     
     return render(request, "login.html", {'form': form})
 
+def logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect(reverse('login'))
+
 def noots_page(request):
     
     # template = loader.get_template('noots_page.html')
     # return HttpResponse(template.render())
+    userId = request.user.id
     context = {
-        'noots': noots.objects.all()
+        'noots': noots.objects.filter(user_id=userId)
     }
     
     return render(request, "noots_page.html", context)
@@ -98,6 +115,7 @@ def write_noots(request):
 
 
 def add_noots(request):
+    
     # ..............OLD METHODS........................
     # NOOTS_TITLE = request.GET.get('title')
     # NOOTS_TEXT = request.GET.get('text')

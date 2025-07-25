@@ -17,11 +17,18 @@
         <div class="bg-light col-8 text-center m-4">
             <h2>Keep notes</h2>
         </div>
-        <div class="col-11 pb-5">
+        <div class="col-10 pb-5">
             <div class="text-end">
                     <a href="write-noots" class="btn  btn-success text-white">+</a>
             </div>
-
+        </div>
+        <div class='col-1 '>
+            <form action="{% url "logout" %}" method='post'>
+                {% csrf_token %}
+                <div class="text-end">
+                    <button  class="btn  btn-danger text-white">logout</button>
+            </div>
+            </form>
         </div>
     </section>
 
