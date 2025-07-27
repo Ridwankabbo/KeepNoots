@@ -2,11 +2,11 @@
     display: grid;
     grid-template-columns: repeat(3, auto);
     justify-content: center;
-    gap: 50px;
+    gap: 40px;
 }
 
 #card{
-    width: 400px;
+    /* width: 350px; */
 }
 
 #btns{

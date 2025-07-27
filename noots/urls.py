@@ -9,5 +9,7 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('write-noots', views.write_noots, name='write-noots'),
     path('add-noots', views.add_noots, name="add-noots" ),
-    path('noots-page', views.noots_page, name='noots-page')
+    path('noots-page', views.noots_page, name='noots-page'),
+    path('delete-noot/<int:noot_id>/', views.deleteNoot, name='delete.noot'),
+    path('edite-noot/<int:noot_id>/', views.editeNoot, name='edite.noot')
 ]

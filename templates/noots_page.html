@@ -1,4 +1,5 @@
 {% extends "layouts/header-footer.html" %} {% block main-content %} 
+{% comment %} {% load static %} {% endcomment %}
 {% for item in noots %}
 <div id="card">
   <div class="card">
@@ -7,10 +8,10 @@
       <p class="card-text">{{item.text}}</p>
       <div id="btns">
         <div class="text-center" id="ediet_btn">
-          <a href="#" class="btn btn-primary">Edite</a>
+          <a href="{% url "edite.noot" item.id %}" class="btn btn-primary">Edite</a>
         </div>
         <div class="text-center" id="delete_btn">
-          <a href="#" class="btn btn-primary">Delete</a>
+          <a href="{% url "delete.noot" item.id %}" class="btn btn-primary">Delete</a>
         </div>
       </div>
     </div>

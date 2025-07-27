@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import IntroDescreption, noots
 from noots.models import noots, Users
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login as auth_login, logout
+from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.urls import reverse
 
 
@@ -94,7 +94,10 @@ def login(request):
 
 def logout(request):
     if request.method == 'POST':
-        logout(request)
+        # form = AuthenticationForm(request= request, data= request.POST)
+        
+        # user = form.get_user()
+        auth_logout(request)
         return redirect(reverse('login'))
 
 def noots_page(request):
@@ -103,7 +106,7 @@ def noots_page(request):
     # return HttpResponse(template.render())
     userId = request.user.id
     context = {
-        'noots': noots.objects.filter(user_id=userId)
+        'noots': noots.objects.all()
     }
     
     return render(request, "noots_page.html", context)
@@ -145,3 +148,23 @@ def add_noots(request):
         # )
     
     return redirect('noots-page')
+
+
+def editeNoot(request, noot_id):
+    
+    #print(noot_id)
+    
+    
+    return redirect('noots-page')
+
+def deleteNoot(request, noot_id):
+    #print(noot_id)
+    
+    noot_to_delete = get_object_or_404(noots, id=noot_id)
+
+    noot_to_delete.delete()
+    print('noot deleted successfully')
+    return redirect('noots-page')
+    
+    
+    r#eturn redirect('noots-page')
