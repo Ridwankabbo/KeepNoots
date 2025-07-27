@@ -85,6 +85,7 @@ def login(request):
             # # login(request, form.get_user())
             # user_name = form.cleaned_data.get('username')
             # LOGED_USER_ID = noots().objects.get()
+            #LOGED_USER_ID = request.user.id
            
             return redirect('noots-page')
     else:
@@ -104,12 +105,19 @@ def noots_page(request):
     
     # template = loader.get_template('noots_page.html')
     # return HttpResponse(template.render())
-    userId = request.user.id
-    context = {
-        'noots': noots.objects.all()
-    }
+    LOGED_USER_ID = request.user.id
+    print(LOGED_USER_ID)
     
-    return render(request, "noots_page.html", context)
+    varefy_user_has_value = noots.objects.filter(user_id=LOGED_USER_ID)
+    if varefy_user_has_value:
+        context = {
+            'noots': varefy_user_has_value
+        }
+        return render(request, "noots_page.html", context)
+    
+    
+    
+    
 
 def write_noots(request):
     template = loader.get_template('noots-write.html')
@@ -117,7 +125,9 @@ def write_noots(request):
 
 
 
-def add_noots(request):
+def add_or_upgrade_noots(request):
+    
+    LOGED_USER_ID = request.user.id
     
     # ..............OLD METHODS........................
     # NOOTS_TITLE = request.GET.get('title')
@@ -134,9 +144,11 @@ def add_noots(request):
     #..................UPDATED METHODS......................
     
     if request.method == 'GET':
+        
         NOOTS_TITLE = request.GET.get('title')
         NOOTS_TEXT = request.GET.get('text')
         
+        NOOTS.user_id = LOGED_USER_ID
         NOOTS.title = NOOTS_TITLE
         NOOTS.text = NOOTS_TEXT
         NOOTS.save()
@@ -152,10 +164,7 @@ def add_noots(request):
 
 def editeNoot(request, noot_id):
     
-    #print(noot_id)
-    
-    
-    return redirect('noots-page')
+    return render(request, 'noots-write.html')
 
 def deleteNoot(request, noot_id):
     #print(noot_id)
@@ -164,7 +173,6 @@ def deleteNoot(request, noot_id):
 
     noot_to_delete.delete()
     print('noot deleted successfully')
+    
+    
     return redirect('noots-page')
-    
-    
-    r#eturn redirect('noots-page')

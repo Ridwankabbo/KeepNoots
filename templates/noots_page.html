@@ -1,5 +1,7 @@
 {% extends "layouts/header-footer.html" %} {% block main-content %} 
 {% comment %} {% load static %} {% endcomment %}
+{% if noots %}
+
 {% for item in noots %}
 <div id="card">
   <div class="card">
@@ -19,6 +21,8 @@
 </div>
 
 {% endfor %} 
+
+{% endif %}
 
 {% comment %}
 <div class="col-5">
