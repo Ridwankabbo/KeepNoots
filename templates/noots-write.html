@@ -14,6 +14,29 @@
     <section class="container p-5">
         <form action="{% url "add-noots" %}" method="GET">
           {% comment %} {% csrf_token %} {% endcomment %}
+          {% if noot %}
+
+            {% comment %} {% for n in noot  %} {% endcomment %}
+              <div class="mb-3">
+                {% comment %} <label for="id" class="form-label">Title</label> {% endcomment %}
+                <input type="number" class="form-control" name="id" value="{{noot.id}}" hidden >
+              </div>
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" value="{{noot.title}}">
+              </div>
+              <div class="mb-3">
+                <label for="text" class="form-label">Text</label>
+                <textarea type="text" class="form-control" name="text">{{noot.text}}</textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">save</button>
+            {% comment %} {% endfor %} {% endcomment %}
+
+            {% else %}
+            <div class="mb-3">
+            {% comment %} <label for="id" class="form-label">Title</label> {% endcomment %}
+            <input type="number" class="form-control" name="id" hidden>
+          </div>
           <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" name="title">
@@ -23,6 +46,9 @@
             <textarea type="text" class="form-control" name="text"></textarea>
           </div>
           <button type="submit" class="btn btn-primary">save</button>
+          
+          {% endif %}
+          
         </form>
     </section>
 
