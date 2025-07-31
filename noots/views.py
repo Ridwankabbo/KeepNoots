@@ -2,9 +2,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import IntroDescreption, noots
-from noots.models import noots, Users
+from noots.models import noots
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
+from django.contrib import messages
 from django.urls import reverse
 
 
@@ -30,33 +32,14 @@ def home(request):
     return HttpResponse(template.render({'intro_decs': introDec}))
     #return render(request, "index.html", {'intro_decs': introDec})
 
-# def singUp(request):
-#     template = loader.get_template('singup.html')
-#     return HttpResponse(template.render())
+def singUp(request):
+    template = loader.get_template('singup.html')
+    return HttpResponse(template.render())
 
 def register_user(request):
     
-    # .................. OLD methods .....................
-    
-    #user = Users()
-    
-    # if request.method == "GET":
-    #     user_name = request.GET.get('username')
-    #     email = request.GET.get('email')
-    #     password = request.GET.get('password')
-    #     c_password = request.GET.get('confirm_password')
-        
-    #     if password == c_password:
-    #         user.name = user_name
-    #         user.email = email
-    #         user.password = password
-    #         user.save()
-            
-    #         return redirect('noots-page')
-    #     else:
-    #         return redirect('singup')
-    
-    # ........................ NEW methods .....................
+    """
+    ..................................... DEFAULT REGISTRATION AUTH METHOD.........................
     
     if request.method == "GET":
         form = UserCreationForm(request.GET)
@@ -68,18 +51,59 @@ def register_user(request):
     
     return render(request, "singup.html", {"form": form})
     
+    ................................................................................................
+    
+    """
+    
+    """.................................. CUSTOMIZE REGISTRATION AUTH METHOD............................."""
+    
+    
+    
+    if request.method == "GET":
+        user_name = request.GET.get('username')
+        email = request.GET.get('email')
+        password = request.GET.get('password')
+        c_password = request.GET.get('confirm_password')
+        
+        if password == c_password:
+            if User.objects.filter(email=email).exists():
+                messages.error(request, "A user with this username already exists.")
+                return redirect('singup')
+            else:
+                user = User.objects.create_user(username=user_name, email=email, password=password)
+                user.save()
+                messages.success(request, "Your account has created successfully")
+            # user.name = user_name
+            # user.email = email
+            # user.password = password
+            # user.save()
+            
+                auth_login(request, user)
+                
+                print(request.user.id)
+            
+                return redirect('noots-page')
+        else:
+            return redirect('singup')
+        
+    #return render(request, 'register-usr')
+    
+    
+    
+    
     
         
 
 def login(request):
     # template = loader.get_template('login.html')
     
+    """ ................................. DEFAULT LOGIN AUTH METHOD.........................................
+    
     if request.method == "POST":
         form = AuthenticationForm(request= request, data=request.POST)
-        if form.is_valid():
-            
+        if form.is_valid(): 
             user = form.get_user()
-            
+            print(user)
             auth_login(request, user)
            
             # # login(request, form.get_user())
@@ -90,8 +114,22 @@ def login(request):
             return redirect('noots-page')
     else:
         form = AuthenticationForm()    
+        
     
     return render(request, "login.html", {'form': form})
+    
+    """
+    
+    """.................................... cUSTOMIZE LOGIN AUTH MEHTOD......................................."""
+    
+    if request.method == "POST":
+        userEmail = request.POST.get('email')
+        userPass = request.POST.get('password')
+        
+        
+    return render(request, "login.html")
+        
+    
 
 def logout(request):
     if request.method == 'POST':
@@ -158,9 +196,12 @@ def add_or_upgrade_noots(request):
             nootValues.text = NOOTS_TEXT
             nootValues.save()
         else:
-            NOOTS.user_id = LOGED_USER_ID
-            NOOTS.title = NOOTS_TITLE
-            NOOTS.text = NOOTS_TEXT
+            # NOOTS.user_id = LOGED_USER_ID
+            # NOOTS.title = NOOTS_TITLE
+            # NOOTS.text = NOOTS_TEXT
+            # NOOTS.save()
+            
+            NOOTS = noots(user_id = LOGED_USER_ID, title = NOOTS_TITLE, text=NOOTS_TEXT)
             NOOTS.save()
         
         

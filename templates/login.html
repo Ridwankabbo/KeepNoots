@@ -62,16 +62,16 @@
     <div class="login-container mx-auto">
         <h1 class="text-center mb-4 fw-bold">Login to Noots App</h1>
         <form action="{% url "login" %}" method="post">
-            {% csrf_token %}
-            {% comment %} <div class="mb-3">
+        {% csrf_token %}
+            <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="Enter your email" required>
             </div>
             <div class="mb-4">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control rounded-pill" id="password" name="password" placeholder="Enter your password" required>
-            </div> {% endcomment %}
-            {{ form }}
+            </div>
+            {% comment %} {{ form }} {% endcomment %}
             <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
         </form>
         <p class="text-center text-muted">Don't have an account? <a href="{% url "singup" %}" class="text-decoration-none">Sign up here</a></p>
@@ -80,7 +80,7 @@
 
     <!-- Bootstrap JS Bundle (Popper.js included) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
+    {% comment %} <script>
         // Function to display a message using Bootstrap alerts
         function showMessage(message, type = 'success') {
             const messageBox = document.getElementById('message-box');
@@ -178,6 +178,6 @@
                 sessionStorage.removeItem('messageType');
             }
         });
-    </script>
+    </script> {% endcomment %}
 </body>
 </html>
